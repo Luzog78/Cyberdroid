@@ -36,17 +36,40 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Breakable.cs" />
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\ThirdPersonController.cs" />
      <Compile Include="Assets\Scripts\GravityArea.cs" />
      <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
      <Compile Include="Assets\Scripts\PlayerHandler.cs" />
      <Compile Include="Assets\Scripts\InspectorModif.cs" />
-     <Compile Include="Assets\Scripts\DoorHandler.cs" />
+     <Compile Include="Assets\Scripts\DoorSlideHandler.cs" />
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\BasicRigidBodyPush.cs" />
      <Compile Include="Assets\Scripts\GravityMotor.cs" />
+     <Compile Include="Assets\Scripts\DoorBreakHandler.cs" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
      <None Include="Assets\Same Gev Dudios\Sci-Fi Robots Bundle\ReadMe.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\StarterAssets\Environment\Shaders\Built-in_RP\Triplanar.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <None Include="Assets\StarterAssets\Environment\Shaders\Built-in_RP\ArmatureShader.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.7f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

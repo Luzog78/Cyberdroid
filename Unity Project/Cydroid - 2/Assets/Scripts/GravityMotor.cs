@@ -12,7 +12,7 @@ public class GravityMotor : MonoBehaviour
 
     private Rigidbody rb;
 
-    [ReadOnly] private Vector3 gravity;
+    [ReadOnly] public Vector3 gravity;
 
     [SerializeField] Vector3 Gravity {
         get
