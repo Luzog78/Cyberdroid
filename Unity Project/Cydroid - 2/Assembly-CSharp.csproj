@@ -36,16 +36,20 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\DoorBreakHandler.cs" />
+     <Compile Include="Assets\Scripts\Cube.cs" />
      <Compile Include="Assets\Scripts\Breakable.cs" />
+     <Compile Include="Assets\Scripts\DoorCubeHandler.cs" />
+     <Compile Include="Assets\Scripts\DoorObjectHandler.cs" />
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\ThirdPersonController.cs" />
      <Compile Include="Assets\Scripts\GravityArea.cs" />
      <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
      <Compile Include="Assets\Scripts\PlayerHandler.cs" />
      <Compile Include="Assets\Scripts\InspectorModif.cs" />
-     <Compile Include="Assets\Scripts\DoorSlideHandler.cs" />
+     <Compile Include="Assets\Scripts\DoorPlayerHandler.cs" />
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\BasicRigidBodyPush.cs" />
      <Compile Include="Assets\Scripts\GravityMotor.cs" />
-     <Compile Include="Assets\Scripts\DoorBreakHandler.cs" />
+     <Compile Include="Assets\Scripts\Missile.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

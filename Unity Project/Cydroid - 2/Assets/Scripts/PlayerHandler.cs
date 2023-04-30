@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerHandler : MonoBehaviour
-{
+public class PlayerHandler : MonoBehaviour {
 
     public bool activated = true;
     public float speed = 10f, runningSpeed = 15f;
     public float jump = 6f;
     public Vector2 mouseSensitivity = new Vector2(150f, 150f);
     public float groundDistance = 1.1f;
-    public bool isGrounded, isJumping;
-
     public GameObject cameraAnchor;
+    public Material raycastMaterial;
+    public bool isGrounded, isJumping, isInteracting;
+    public Rigidbody grabbingObject;
+    public bool tryingJump, tryingRun, tryingForward, tryingBackward, tryingLeft, tryingRight, tryingInteract;
+    public Vector2 mouseInput;
 
     private Rigidbody rb;
 
-    void CheckGrounded()
-    {
+    void CheckGrounded() {
         isGrounded = Physics.Raycast(rb.transform.position, -rb.transform.up, groundDistance, 1);
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         rb = GetComponent<Rigidbody>();
         CheckGrounded();
 
@@ -33,44 +33,55 @@ public class PlayerHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (activated) {
             CheckGrounded();
-            if (Input.GetKey(KeyCode.Space) && isGrounded && !isJumping) {
-                rb.AddForce(rb.transform.up * jump, ForceMode.Impulse);
-                isJumping = true;
-                StartCoroutine(JumpCooldown());
+
+            tryingRun = Input.GetKey(KeyCode.F);
+            tryingJump = Input.GetKey(KeyCode.Space);
+            tryingForward = Input.GetKey(KeyCode.S);
+            tryingBackward = Input.GetKey(KeyCode.W);
+            tryingLeft = Input.GetKey(KeyCode.Q);
+            tryingRight = Input.GetKey(KeyCode.D);
+            tryingInteract = Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
+            mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+
+            // --- Handle Movement ---
+
+            float finalSpeed = tryingRun ? runningSpeed : speed;
+            float reduction = isGrounded ? 1 : 0.33f;
+
+            if (tryingJump) {
+                if (isJumping) {
+                    rb.AddForce(rb.transform.up * jump, ForceMode.Acceleration);
+                } else if (isGrounded) {
+                    isJumping = true;
+                    StartCoroutine(JumpCooldown());
+                }
             }
 
-            float finalSpeed = Input.GetKey(KeyCode.F) ? runningSpeed : speed;
-
-            if (Input.GetKey(KeyCode.S)) {
-                rb.AddForce(rb.transform.forward * finalSpeed, ForceMode.Acceleration);
+            if (tryingForward) {
+                rb.AddForce(rb.transform.forward * finalSpeed * reduction, ForceMode.Acceleration);
             }
-            if (Input.GetKey(KeyCode.W)) {
-                rb.AddForce(-rb.transform.forward * finalSpeed, ForceMode.Acceleration);
+            if (tryingBackward) {
+                rb.AddForce(-rb.transform.forward * finalSpeed * reduction, ForceMode.Acceleration);
             }
-            if (Input.GetKey(KeyCode.Q)) {
-                rb.AddForce(-rb.transform.right * finalSpeed, ForceMode.Acceleration);
+            if (tryingLeft) {
+                rb.AddForce(-rb.transform.right * finalSpeed * reduction, ForceMode.Acceleration);
             }
-            if (Input.GetKey(KeyCode.D)) {
-                rb.AddForce(rb.transform.right * finalSpeed, ForceMode.Acceleration);
+            if (tryingRight) {
+                rb.AddForce(rb.transform.right * finalSpeed * reduction, ForceMode.Acceleration);
             }
-            /*if (Input.GetKey(KeyCode.A)) {
-                transform.Rotate(Vector3.up, -turnSpeed * Time.deltaTime);
-            }
-            if (Input.GetKey(KeyCode.D)) {
-                transform.Rotate(Vector3.up, turnSpeed * Time.deltaTime);
-            }*/
 
             if(rb.velocity.magnitude > finalSpeed) {
                 rb.velocity = rb.velocity.normalized * finalSpeed;
             }
 
-            transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * mouseSensitivity.y * Time.deltaTime);
+            // --- Handle Camera & Rotation ---
+
+            transform.Rotate(Vector3.up, mouseInput.x * mouseSensitivity.y * Time.deltaTime);
             if(cameraAnchor != null) {
-                cameraAnchor.transform.Rotate(Vector3.right, -Input.GetAxis("Mouse Y") * mouseSensitivity.x * Time.deltaTime);
+                cameraAnchor.transform.Rotate(Vector3.right, -mouseInput.y * mouseSensitivity.x * Time.deltaTime);
                 float rot = cameraAnchor.transform.localEulerAngles.x;
                 if (rot > 60 && rot < 290)
                 {
@@ -79,13 +90,47 @@ public class PlayerHandler : MonoBehaviour
                     cameraAnchor.transform.localEulerAngles = new Vector3(tooLow ? 60 : 290, 0, 0);
                 }
             }
+
+            // --- Handle Interactions ---
+
+            Vector3 distantLocation = cameraAnchor.transform.position + cameraAnchor.transform.forward * 6;
+
+            if (grabbingObject != null) {
+                grabbingObject.velocity = Vector3.zero;
+                grabbingObject.AddForce(distantLocation - grabbingObject.transform.position, ForceMode.Impulse);
+            }
+
+            if (tryingInteract && !isInteracting) {
+                isInteracting = true;
+                StartCoroutine(InteractionCooldown());
+                Missile.Create(origin: cameraAnchor.transform.position,
+                               target: distantLocation,
+                               material: raycastMaterial);
+
+                if (grabbingObject == null) {
+                    RaycastHit hit;
+                    if (Physics.Raycast(cameraAnchor.transform.position, cameraAnchor.transform.forward, out hit, 10)) {
+                        if (hit.collider.TryGetComponent(out Rigidbody rb)) {
+                            // "cube" will not be used, but it is required to check if the object is a cube
+                            if (rb.gameObject.TryGetComponent(out Cube cube)) {
+                                grabbingObject = rb;
+                            }
+                        }
+                    }
+                } else {
+                    grabbingObject = null;
+                }
+            }
         }
     }
 
-    IEnumerator JumpCooldown()
-    {
-        isJumping = true;
+    IEnumerator JumpCooldown() {
         yield return new WaitForSeconds(0.1f);
         isJumping = false;
+    }
+
+    IEnumerator InteractionCooldown() {
+        yield return new WaitForSeconds(0.1f);
+        isInteracting = false;
     }
 }
