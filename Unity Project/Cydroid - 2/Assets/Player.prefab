@@ -54,14 +54,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 1
-  speed: 10
-  runningSpeed: 13
-  jump: 8
+  speed: 7
+  runningSpeed: 10
+  jump: 20
   mouseSensitivity: {x: 150, y: 150}
   groundDistance: 1.1
-  grabbingObject: {fileID: 0}
+  cameraAnchor: {fileID: 995823782136873428}
+  raycastMaterial: {fileID: 2100000, guid: 2e54e9134232d6e428cb10ba92a547aa, type: 2}
   isGrounded: 0
   isJumping: 0
+  isInteracting: 0
+  grabbingObject: {fileID: 0}
   tryingJump: 0
   tryingRun: 0
   tryingForward: 0
@@ -70,7 +73,6 @@ MonoBehaviour:
   tryingRight: 0
   tryingInteract: 0
   mouseInput: {x: 0, y: 0}
-  cameraAnchor: {fileID: 995823782136873428}
 --- !u!114 &995823781815509077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,7 +369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995823782721855056}
   m_LocalRotation: {x: 0.08715579, y: -0, z: -0, w: 0.9961947}
-  m_LocalPosition: {x: -0.00000047683716, y: 2.545453, z: -4.6635747}
+  m_LocalPosition: {x: -0.00000047683716, y: 2.545453, z: -4.6635137}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

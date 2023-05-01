@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -12,6 +14,7 @@ public class PlayerHandler : MonoBehaviour {
     public float groundDistance = 1.1f;
     public GameObject cameraAnchor;
     public Material raycastMaterial;
+    public Animator playerAnimator;
     public bool isGrounded, isJumping, isInteracting;
     public Rigidbody grabbingObject;
     public bool tryingJump, tryingRun, tryingForward, tryingBackward, tryingLeft, tryingRight, tryingInteract;
@@ -103,23 +106,34 @@ public class PlayerHandler : MonoBehaviour {
             if (tryingInteract && !isInteracting) {
                 isInteracting = true;
                 StartCoroutine(InteractionCooldown());
-                Missile.Create(origin: cameraAnchor.transform.position,
-                               target: distantLocation,
-                               material: raycastMaterial);
 
                 if (grabbingObject == null) {
-                    RaycastHit hit;
-                    if (Physics.Raycast(cameraAnchor.transform.position, cameraAnchor.transform.forward, out hit, 10)) {
-                        if (hit.collider.TryGetComponent(out Rigidbody rb)) {
-                            // "cube" will not be used, but it is required to check if the object is a cube
-                            if (rb.gameObject.TryGetComponent(out Cube cube)) {
-                                grabbingObject = rb;
+                    Missile.Create(
+                        origin: cameraAnchor.transform.position,
+                        target: cameraAnchor.transform.position + cameraAnchor.transform.forward * 16,
+                        material: raycastMaterial,
+                        onCollide: (missile, collider) => {
+                            if (collider.gameObject.TryGetComponent(out Cube cube)) {
+                                grabbingObject = cube.gameObject.GetOrAddComponent<Rigidbody>();
+                                Destroy(missile.gameObject);
+                            }
+                            if (collider.gameObject.TryGetComponent(out Breakable breakable)) {
+                                breakable.broken = true;
+                                Destroy(missile.gameObject);
                             }
                         }
-                    }
+                    );
                 } else {
                     grabbingObject = null;
                 }
+            }
+
+            if (playerAnimator != null) {
+                playerAnimator.SetFloat("Speed", rb.velocity.magnitude);
+                playerAnimator.SetBool("Jump", isJumping);
+                playerAnimator.SetBool("Grounded", isGrounded);
+                playerAnimator.SetBool("FreeFall", !isGrounded);
+                playerAnimator.SetFloat("MotionSpeed", 1);
             }
         }
     }
