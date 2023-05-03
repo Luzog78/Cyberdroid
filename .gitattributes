@@ -1,0 +1,2 @@
+Unity[[:space:]]Project/Cydroid[[:space:]]-[[:space:]]2/Library/Artifacts/ff/ff006e05c0158f60b53aea483147733b filter=lfs diff=lfs merge=lfs -text
+Unity[[:space:]]Project/Cydroid[[:space:]]-[[:space:]]2/Library/Artifacts/ff/* filter=lfs diff=lfs merge=lfs -text

@@ -37,25 +37,30 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\DoorBreakHandler.cs" />
+     <Compile Include="Assets\Scripts\Manager.cs" />
      <Compile Include="Assets\Scripts\Cube.cs" />
+     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
+     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualTouchZone.cs" />
+     <Compile Include="Assets\Scripts\CustomAudioSource.cs" />
      <Compile Include="Assets\Scripts\Breakable.cs" />
      <Compile Include="Assets\Scripts\DoorCubeHandler.cs" />
      <Compile Include="Assets\Scripts\DoorObjectHandler.cs" />
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\ThirdPersonController.cs" />
+     <Compile Include="Assets\Scripts\Killer.cs" />
      <Compile Include="Assets\Scripts\GravityArea.cs" />
+     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
      <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
      <Compile Include="Assets\Scripts\Missile.cs" />
+     <Compile Include="Assets\StarterAssets\Mobile\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
      <Compile Include="Assets\Scripts\PlayerHandler.cs" />
+     <Compile Include="Assets\StarterAssets\Mobile\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
+     <Compile Include="Assets\Scripts\PedestalCubeChanger.cs" />
      <Compile Include="Assets\Scripts\InspectorModif.cs" />
      <Compile Include="Assets\Scripts\DoorPlayerHandler.cs" />
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\BasicRigidBodyPush.cs" />
-     <Compile Include="Assets\Scripts\GravityMotor.cs" />
      <Compile Include="Assets\StarterAssets\TutorialInfo\Scripts\Readme.cs" />
-     <Compile Include="Assets\StarterAssets\Mobile\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
-     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
-     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualTouchZone.cs" />
-     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
-     <Compile Include="Assets\StarterAssets\Mobile\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
+     <Compile Include="Assets\Scripts\Spawn.cs" />
+     <Compile Include="Assets\Scripts\GravityMotor.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -777,8 +782,11 @@
     <Reference Include="UnityEditor.UI">
         <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    <Reference Include="Unity.InputSystem">
+        <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Editor">
+        <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
         <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
@@ -786,11 +794,11 @@
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
         <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-        <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PlasticSCM.Editor">
+        <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
         <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
@@ -851,9 +859,6 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
         <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-        <HintPath>C:\Users\Luzog\Workspace\Local\Unity\Projects\Cydroid\Unity Project\Cydroid - 2\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

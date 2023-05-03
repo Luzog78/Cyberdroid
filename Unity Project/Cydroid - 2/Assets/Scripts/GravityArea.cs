@@ -6,7 +6,8 @@ using UnityEngine;
 public class GravityArea : MonoBehaviour
 {
 
-    [Tooltip("Don't forget to turn on the isTrigger flag of the collider")]
+    [Header("Don't forget to turn on the isTrigger flag of the collider")]
+    [Space(25)]
 
     public bool activated = true;
     public int priority = 0;
@@ -24,10 +25,9 @@ public class GravityArea : MonoBehaviour
     {
         if(other.TryGetComponent(out GravityMotor motor))
         {
+            motor.gravityAreas.Remove(this);
             if(activated)
                 motor.gravityAreas.Add(this);
-            else
-                motor.gravityAreas.Remove(this);
         }
     }
 

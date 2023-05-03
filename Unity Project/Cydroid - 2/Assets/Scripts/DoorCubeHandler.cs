@@ -7,12 +7,13 @@ public class DoorCubeHandler : MonoBehaviour {
 
     public bool activated = true;
     public Animator animator;
-    public short cubeColor = 0;
+    [Range(0, 7)] public short cubeColor = 0;
     public int cubeNeeded = 1;
+    public bool atLeast = false;
     public int cubesIn = 0;
 
     void CheckForOpening() {
-        if (cubesIn >= cubeNeeded) {
+        if (atLeast ? cubesIn >= cubeNeeded : cubesIn == cubeNeeded) {
             if(animator != null) {
                 if (animator.GetBool("Opened") == false) {
                     animator.SetBool("Opened", true);
@@ -29,7 +30,7 @@ public class DoorCubeHandler : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-
+        CheckForOpening();
     }
 
     // Update is called once per frame
@@ -39,7 +40,7 @@ public class DoorCubeHandler : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if(activated && other.TryGetComponent(out Cube cube)) {
-            if (cube.cubeColor == cubeColor) {
+            if (cubeColor == 0 || cube.cubeColor == cubeColor) {
                 cubesIn += cube.cubeSize;
                 CheckForOpening();
             }
@@ -48,7 +49,7 @@ public class DoorCubeHandler : MonoBehaviour {
 
     void OnTriggerExit(Collider other) {
         if(activated && other.TryGetComponent(out Cube cube)) {
-            if (cube.cubeColor == cubeColor) {
+            if (cubeColor == 0 || cube.cubeColor == cubeColor) {
                 cubesIn -= cube.cubeSize;
                 CheckForOpening();
             }

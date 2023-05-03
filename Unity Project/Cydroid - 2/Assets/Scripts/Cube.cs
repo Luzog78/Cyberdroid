@@ -7,7 +7,7 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
 
-    public short cubeColor = 0;
+    [Range(0, 7)] public short cubeColor = 0;
     public int cubeSize = 1;
 
     // Start is called before the first frame update
