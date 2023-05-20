@@ -23,6 +23,17 @@ public class Spawn : MonoBehaviour {
         if (activated) {
             if (collider.gameObject.TryGetComponent(out PlayerHandler player)) {
                 player.spawn = this;
+                if (Manager.instance.room != room) {
+                    Manager.RoomHandler from = Manager.instance.GetRoomHandler(Manager.instance.room);
+                    Manager.instance.room = room;
+                    Manager.RoomHandler to = Manager.instance.GetRoomHandler(room);
+                    if (from.room != -1) {
+                        from.OnExit();
+                    }
+                    if (to.room != -1) {
+                        to.OnEnter();
+                    }
+                }
             }
         }
     }

@@ -7,19 +7,23 @@ public class DoorCubeHandler : MonoBehaviour {
 
     public bool activated = true;
     public Animator animator;
-    [Range(0, 7)] public short cubeColor = 0;
+    [Range(0, 7)] public byte cubeColor = 0;
     public int cubeNeeded = 1;
     public bool atLeast = false;
     public int cubesIn = 0;
 
+    [ReadOnly] public bool opened;
+
     void CheckForOpening() {
         if (atLeast ? cubesIn >= cubeNeeded : cubesIn == cubeNeeded) {
+            opened = true;
             if(animator != null) {
                 if (animator.GetBool("Opened") == false) {
                     animator.SetBool("Opened", true);
                 }
             }
         } else {
+            opened = false;
             if(animator != null) {
                 if (animator.GetBool("Opened") == true) {
                     animator.SetBool("Opened", false);

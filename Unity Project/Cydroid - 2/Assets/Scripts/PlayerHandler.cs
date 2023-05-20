@@ -1,11 +1,38 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Animations;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerHandler : MonoBehaviour {
+    [Serializable]
+    public enum PressType {
+        Pressed,
+        Down,
+        Up
+    }
+
+    [Serializable]
+    public struct Key {
+        public List<KeyCode> keys;
+        public PressType pressType;
+
+        public Key(PressType pressType, params KeyCode[] key) {
+            this.keys = new List<KeyCode>(key);
+            this.pressType = pressType;
+        }
+
+        public bool IsPressed() {
+            PressType pressType = this.pressType;
+            return keys.Any(k => (pressType == PressType.Pressed && Input.GetKey(k))
+                              || (pressType == PressType.Down    && Input.GetKeyDown(k))
+                              || (pressType == PressType.Up      && Input.GetKeyUp(k)));
+        }
+    }
 
     public bool activated = true;
     
@@ -37,6 +64,7 @@ public class PlayerHandler : MonoBehaviour {
     public bool canGrab = false;
     public bool canBreak = false;
     public bool canReset = false;
+    public bool canExit = true;
 
     [Space(10)]
     [Header("Automatic Variables")]
@@ -49,6 +77,17 @@ public class PlayerHandler : MonoBehaviour {
     public bool isJumping;
     public bool isInteracting;
     [Space(10)]
+    public Key keyJump          = new Key(PressType.Pressed, KeyCode.Space                 );
+    public Key keyRun           = new Key(PressType.Pressed, KeyCode.LeftShift             );
+    public Key keyForward       = new Key(PressType.Pressed, KeyCode.Z                     );
+    public Key keyBackward      = new Key(PressType.Pressed, KeyCode.S                     );
+    public Key keyLeft          = new Key(PressType.Pressed, KeyCode.Q                     );
+    public Key keyRight         = new Key(PressType.Pressed, KeyCode.D                     );
+    public Key keyInteract      = new Key(PressType.Down,    KeyCode.Mouse0, KeyCode.Mouse1);
+    public Key keyReset         = new Key(PressType.Down,    KeyCode.R                     );
+    public Key keyResetRotation = new Key(PressType.Down,    KeyCode.T                     );
+    public Key keyExit          = new Key(PressType.Down,    KeyCode.Escape                );
+    [Space(10)]
     public Vector2 mouseInput;
     [Space(10)]
     public bool tryingJump;
@@ -59,11 +98,44 @@ public class PlayerHandler : MonoBehaviour {
     public bool tryingRight;
     public bool tryingInteract;
     public bool tryingReset;
+    public bool tryingResetRotation;
+    public bool tryingExit;
 
     private Rigidbody rb;
 
     public void CheckGrounded() {
         isGrounded = Physics.Raycast(rb.transform.position, -rb.transform.up, groundDistance, 1);
+    }
+
+    private void UpdateUiField(ref Manager.UIControl uiControl, Key? key) {
+        if (key == null) {
+            if (uiControl.textBox != null) {
+                uiControl.textBox.text = "";
+            }
+            uiControl.otherObjects.ForEach(o => o.SetActive(false));
+        } else {
+            if (uiControl.textBox != null) {
+                string text = ((Key) key).keys.Select(k => k.ToString())
+                                              .Aggregate((a, b) => a + "\n" + b);
+                text = text.ToUpper().Replace("LEFT", "L").Replace("RIGHT", "R")
+                                     .Replace("ESCAPE", "ESC").Replace("DELETE", "DEL")
+                                     .Replace("MOUSE", "M ").Replace("KEYPAD", "KPAD ");
+                uiControl.textBox.text = text;
+            }
+            uiControl.otherObjects.ForEach(o => o.SetActive(true));
+        }
+    }
+
+    public void UpdateUi() {
+        UpdateUiField(ref Manager.instance.uiControlJump, canJump ? keyJump : null);
+        UpdateUiField(ref Manager.instance.uiControlRun, canRun ? keyRun : null);
+        UpdateUiField(ref Manager.instance.uiControlForward, canWalk ? keyForward : null);
+        UpdateUiField(ref Manager.instance.uiControlBackward, canWalk ? keyBackward : null);
+        UpdateUiField(ref Manager.instance.uiControlLeft, canWalk ? keyLeft : null);
+        UpdateUiField(ref Manager.instance.uiControlRight, canWalk ? keyRight : null);
+        UpdateUiField(ref Manager.instance.uiControlInteract, canInteract ? keyInteract : null);
+        UpdateUiField(ref Manager.instance.uiControlReset, canReset ? keyReset : null);
+        UpdateUiField(ref Manager.instance.uiControlExit, canExit ? keyExit : null);
     }
 
     void Awake() {
@@ -79,29 +151,48 @@ public class PlayerHandler : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody>();
         CheckGrounded();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update() {
+        UpdateUi();
+
         if (activated) {
             CheckGrounded();
 
-            tryingRun = Input.GetKey(KeyCode.F);
-            tryingJump = Input.GetKey(KeyCode.Space);
-            tryingForward = Input.GetKey(KeyCode.S);
-            tryingBackward = Input.GetKey(KeyCode.W);
-            tryingLeft = Input.GetKey(KeyCode.Q);
-            tryingRight = Input.GetKey(KeyCode.D);
-            tryingInteract = Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
-            tryingReset = Input.GetKeyDown(KeyCode.R);
             mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            tryingJump          = keyJump         .IsPressed();
+            tryingRun           = keyRun          .IsPressed();
+            tryingForward       = keyForward      .IsPressed();
+            tryingBackward      = keyBackward     .IsPressed();
+            tryingLeft          = keyLeft         .IsPressed();
+            tryingRight         = keyRight        .IsPressed();
+            tryingInteract      = keyInteract     .IsPressed();
+            tryingReset         = keyReset        .IsPressed();
+            tryingResetRotation = keyResetRotation.IsPressed();
+            tryingExit          = keyExit         .IsPressed();
+
+            if (canExit && tryingExit) {
+                Manager.instance.isPaused = !Manager.instance.isPaused;
+                return;
+            }
+
+            if (Manager.instance.isPaused) {
+                mouseInput = Vector2.zero;
+                tryingJump          = false;
+                tryingRun           = false;
+                tryingForward       = false;
+                tryingBackward      = false;
+                tryingLeft          = false;
+                tryingRight         = false;
+                tryingInteract      = false;
+                tryingReset         = false;
+                tryingResetRotation = false;
+            }
 
             // --- Handle Reset ---
 
-            if (tryingReset) {
+            if (canReset && tryingReset) {
                 //TryToReset();
                 Die();
                 return;
@@ -159,6 +250,11 @@ public class PlayerHandler : MonoBehaviour {
             // --- Handle Camera & Rotation ---
 
             if (canRotate) {
+                if (tryingResetRotation) {
+                    transform.rotation = Quaternion.identity;
+                    if(cameraAnchor != null)
+                        cameraAnchor.transform.localEulerAngles = Vector3.zero;
+                }
                 transform.Rotate(Vector3.up, mouseInput.x * mouseSensitivity.y * Time.deltaTime);
                 if(cameraAnchor != null) {
                     cameraAnchor.transform.Rotate(Vector3.right, -mouseInput.y * mouseSensitivity.x * Time.deltaTime);
@@ -199,6 +295,7 @@ public class PlayerHandler : MonoBehaviour {
             foreach(Collider c in activeColliders) {
                 c.enabled = false;
             }
+            canReset = false;
             Missile.Create(
                 origin: transform.position,
                 target: t.position,
@@ -213,12 +310,16 @@ public class PlayerHandler : MonoBehaviour {
                     }
                     transform.position = t.position;
                     transform.rotation = t.rotation;
+                    if(cameraAnchor != null)
+                        cameraAnchor.transform.localEulerAngles = Vector3.zero;
                     foreach(Renderer r in activeRenderers) {
                         r.enabled = true;
                     }
                     foreach(Collider c in activeColliders) {
                         c.enabled = true;
                     }
+                    canReset = true;
+                    Manager.instance.deaths++;
                     Manager.ResetGame();
                 }
             );

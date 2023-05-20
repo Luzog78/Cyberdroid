@@ -29,7 +29,6 @@ public class GravityMotor : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     // Update is called once per frame
@@ -40,9 +39,12 @@ public class GravityMotor : MonoBehaviour
 
             if (rotate)
             {
+                rb.constraints = RigidbodyConstraints.FreezeRotation;
                 Quaternion rotation = Quaternion.FromToRotation(transform.up, -gravity) * transform.rotation;
                 rotation = Quaternion.Slerp(transform.rotation, rotation, 10f * Time.deltaTime);
                 transform.rotation = rotation;
+            } else {
+                rb.constraints = RigidbodyConstraints.None;
             }
 
             rb.AddForce(gravity * rb.mass * Time.deltaTime, ForceMode.Acceleration);

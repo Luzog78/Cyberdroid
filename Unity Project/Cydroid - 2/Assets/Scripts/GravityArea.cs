@@ -10,7 +10,7 @@ public class GravityArea : MonoBehaviour
     [Space(25)]
 
     public bool activated = true;
-    public int priority = 0;
+    [Range(-128, 127)] public sbyte priority = 0;
     public float gravityStrength = 900f;
     public Vector3 gravityDirection = Vector3.down;
 
