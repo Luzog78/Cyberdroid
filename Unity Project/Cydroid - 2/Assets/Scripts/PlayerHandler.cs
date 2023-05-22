@@ -349,6 +349,7 @@ public class PlayerHandler : MonoBehaviour {
                     }
                     transform.position = t.position;
                     transform.rotation = t.rotation;
+                    rb.velocity = Vector3.zero;
                     if(cameraAnchor != null)
                         cameraAnchor.transform.localEulerAngles = Vector3.zero;
                     foreach(Renderer r in activeRenderers) {
