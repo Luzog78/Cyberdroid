@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -22,6 +23,11 @@ public class Manager : MonoBehaviour {
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
         Application.Quit();
+    }
+
+    [Serializable]
+    public enum Window {
+        GAME, INGAME_PAUSE, STARTING_PAUSE, MAIN
     }
 
     [Serializable]
@@ -56,8 +62,8 @@ public class Manager : MonoBehaviour {
         }
     }
 
-    public bool isPaused = false;
-    private bool __isPaused;
+    public Window window = Window.MAIN;
+    private Window __window;
 
     [Header("Gameplay")]
     [Space(10)]
@@ -74,6 +80,7 @@ public class Manager : MonoBehaviour {
     
     [Header("UI")]
     [Space(10)]
+    public GameObject mainUI           = null;
     public GameObject pauseUI          = null;
     public UIControl uiControlJump     = new UIControl(null, new List<GameObject>());
     public UIControl uiControlRun      = new UIControl(null, new List<GameObject>());
@@ -97,6 +104,8 @@ public class Manager : MonoBehaviour {
     public List<AudioSource> sfx = new List<AudioSource>();
     public List<CustomAudioSource> currentSfx = new List<CustomAudioSource>();
     [Space(10)]
+    public TextMeshProUGUI subtitles = null;
+    public GameObject subtitlesParent = null;
     [Range(0, 1)] public float voiceVolume = 1f;
     public List<NarrationItem> voices = new List<NarrationItem>();
     public List<Narration> currentVoice = new List<Narration>();
@@ -223,7 +232,7 @@ public class Manager : MonoBehaviour {
             CustomAudioSource cas = go.GetOrAddComponent<CustomAudioSource>();
             cas.audioSource = go.GetComponent<AudioSource>();
             currentList.Add(cas);
-            cas.Play(GetBackgroundVolume);
+            cas.Play(getVolume);
             return currentList.Count - 1;
         }
         return -1;
@@ -237,6 +246,102 @@ public class Manager : MonoBehaviour {
         return PlaySound(sfx, currentSfx, GetSfxVolume, index, stopOthers);
     }
 
+    public void Narrate(string narration) {
+        int index = voices.FindIndex(n => n.id == narration);
+        if (index >= 0 && index < voices.Count) {
+            Narration n = voices[index].narration;
+            currentVoice.Add(n);
+            if (currentVoice.Count == 1) {
+                if (!n.finishedOnce || n.canBeReplayed) {
+                    n.Play();
+                } else {
+                    currentVoice.RemoveAt(0);
+                }
+            }
+        }
+    }
+
+    public void SwitchWindowToGame() {
+        window = Window.GAME;
+    }
+
+    public void SwitchWindowToInGamePause() {
+        window = Window.INGAME_PAUSE;
+    }
+
+    public void SwitchWindowToStartingPause() {
+        window = Window.STARTING_PAUSE;
+    }
+
+    public void SwitchWindowToMain() {
+        window = Window.MAIN;
+    }
+
+    public bool IsPaused() {
+        return window == Window.INGAME_PAUSE || window == Window.STARTING_PAUSE;
+    }
+
+    public void Pause() {
+        if (window == Window.GAME) {
+            SwitchWindowToInGamePause();
+        } else if (window == Window.MAIN) {
+            SwitchWindowToStartingPause();
+        }
+    }
+
+    public void Unpause() {
+        if (window == Window.INGAME_PAUSE) {
+            SwitchWindowToGame();
+        } else if (window == Window.STARTING_PAUSE) {
+            SwitchWindowToMain();
+        }
+    }
+
+    public void TogglePause() {
+        if (IsPaused()) {
+            Unpause();
+        } else {
+            Pause();
+        }
+    }
+
+    public void TrySkipTutorial() {
+        if (Input.GetKey(KeyCode.LeftControl)) {
+            SkipTutorial();
+        }
+    }
+
+    public void SkipTutorial() {
+        players.ForEach(p => {
+            p.canRotate = true;
+            p.canWalk = true;
+            p.canRun = true;
+            p.canJump = true;
+            p.canInteract = true;
+            p.canGrab = true;
+            p.canBreak = true;
+            p.canReset = true;
+            p.canExit = true;
+        });
+        voices.ForEach(v => {
+            if (!v.narration.canBeSkipped) {
+                v.narration.Stop();
+                v.narration.onFirstStart.Invoke();
+                v.narration.onStart.Invoke();
+                v.narration.subtitles.ForEach(s => {
+                    s.subtitle.onStart.Invoke();
+                    s.subtitle.text.ForEach(t => t.onInvoke.Invoke());
+                    s.subtitle.onStop.Invoke();
+                    s.subtitle.linkedObjects.ForEach(o => o.SetActive(true));
+                });
+                v.narration.onFirstStop.Invoke();
+                v.narration.onStop.Invoke();
+                v.narration.linkedObjects.ForEach(o => o.SetActive(true));
+                v.narration.finishedOnce = true;
+            }
+        });
+    }
+
     void Awake() {
         if (FindObjectsOfType<Manager>().Length > 1) {
             Destroy(gameObject);
@@ -244,11 +349,14 @@ public class Manager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(this);
+        instance = this;
     }
 
     // Start is called before the first frame update
     void Start() {
-        __isPaused = !isPaused;
+        instance = this;
+        __window = window == Window.GAME || window == Window.INGAME_PAUSE || window == Window.STARTING_PAUSE ?
+                                Window.MAIN : Window.GAME;
 
         Dictionary<float, System.Action> onTimeSpent = new Dictionary<float, System.Action>();
         rooms.Add(new RoomHandler(0, () => {
@@ -278,17 +386,27 @@ public class Manager : MonoBehaviour {
     void Update() {
         instance = this;
 
-        if (isPaused != __isPaused) {
-            __isPaused = isPaused;
-            if (isPaused) {
+        if (window != __window) {
+            __window = window;
+            if (window != Window.GAME) {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             } else {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
+            if (mainUI != null)
+                mainUI.SetActive(window == Window.MAIN);
             if (pauseUI != null)
-                pauseUI.SetActive(isPaused);
+                pauseUI.SetActive(window == Window.INGAME_PAUSE || window == Window.STARTING_PAUSE);
+        }
+
+        if (subtitles != null && subtitlesParent != null) {
+            if (subtitles.text == "") {
+                subtitlesParent.SetActive(false);
+            } else {
+                subtitlesParent.SetActive(true);
+            }
         }
         
         if (deaths == -1) {
@@ -316,6 +434,32 @@ public class Manager : MonoBehaviour {
         if (currentBackgrounds.Count == 0) {
             int random = UnityEngine.Random.Range(0, backgrounds.Count);
             PlayBackground(random);
+        }
+
+        if (currentVoice.Count > 0) {
+            currentVoice[0].subtitles.ForEach(s => {
+                if (s.subtitle != null && s.subtitle.audioSource != null) {
+                    s.subtitle.audioSource.volume = voiceVolume;
+                }
+            });
+            if (!currentVoice[0].isPlaying) {
+                while (true) {
+                    currentVoice.RemoveAt(0);
+                    if (currentVoice.Count > 1 && currentVoice[0].canBeSkipped && currentVoice.Any(n => !n.canBeSkipped)) {
+                        // Pass. The while loop will continue.
+                    } else if (currentVoice.Count > 0) {
+                        Narration n = currentVoice[0];
+                        if (!n.finishedOnce || n.canBeReplayed) {
+                            n.Play();
+                            break;
+                        } else {
+                            currentVoice.RemoveAt(0);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
         }
 
         bool found = false;

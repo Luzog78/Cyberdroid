@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Subtitle : MonoBehaviour {
     
@@ -11,23 +11,24 @@ public class Subtitle : MonoBehaviour {
     public struct Sentence {
         [TextArea(5, 10)] public string text;
         [Tooltip("In millisec.")] [Range(0, 65535)] public ushort duration;
+        public UnityEvent onInvoke;
     }
 
     [Range(-128, 127)] public sbyte priority;
     public AudioSource audioSource;
-    public TextMeshProUGUI textBox;
     public List<GameObject> linkedObjects;
     public bool isPlaying = false;
     public int currentSentence = -1;
     public List<Sentence> text;
+    public UnityEvent onStart;
+    public UnityEvent onStop;
+
+    public TextMeshProUGUI textBox { get => Manager.instance.subtitles; }
 
     // Start is called before the first frame update
     void Start() {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
-        if (textBox == null)
-            textBox = GetComponent<TextMeshProUGUI>();
-        Play();
     }
 
     // Update is called once per frame
@@ -49,10 +50,14 @@ public class Subtitle : MonoBehaviour {
             textBox.gameObject.SetActive(true);
             linkedObjects.ForEach((obj) => obj.SetActive(true));
         }
+        Debug.Log("///////////////////////// Starting NARRATION");
+        onStart.Invoke();
+        Debug.Log("///////////////////////// Starting COROUNTINE");
         StartCoroutine(ShowSentences());
     }
 
     public void Stop() {
+        onStop.Invoke();
         isPlaying = false;
         currentSentence = -1;
         if (audioSource != null) {
@@ -69,6 +74,7 @@ public class Subtitle : MonoBehaviour {
         if (!isPlaying) {
             yield break;
         }
+        Debug.Log("Showing sentence " + currentSentence + " of " + text.Count + "on " + textBox.gameObject.name);
         if (currentSentence >= text.Count) {
             currentSentence = -1;
             if (textBox != null) {
@@ -78,6 +84,7 @@ public class Subtitle : MonoBehaviour {
             }
             yield break;
         }
+        text[currentSentence].onInvoke.Invoke();
         if (textBox != null) {
             textBox.text = "<color=#dd0000><b><u>Narrateur :</u></b></color> <color=#fff>"
                             + text[currentSentence].text + "</color>";

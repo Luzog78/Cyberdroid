@@ -18,10 +18,12 @@ public class PlayerHandler : MonoBehaviour {
 
     [Serializable]
     public struct Key {
+        public bool ui;
         public List<KeyCode> keys;
         public PressType pressType;
 
-        public Key(PressType pressType, params KeyCode[] key) {
+        public Key(bool ui, PressType pressType, params KeyCode[] key) {
+            this.ui = ui;
             this.keys = new List<KeyCode>(key);
             this.pressType = pressType;
         }
@@ -31,6 +33,10 @@ public class PlayerHandler : MonoBehaviour {
             return keys.Any(k => (pressType == PressType.Pressed && Input.GetKey(k))
                               || (pressType == PressType.Down    && Input.GetKeyDown(k))
                               || (pressType == PressType.Up      && Input.GetKeyUp(k)));
+        }
+
+        public void SetVisibleInUI(bool ui) {
+            this.ui = ui;
         }
     }
 
@@ -77,16 +83,16 @@ public class PlayerHandler : MonoBehaviour {
     public bool isJumping;
     public bool isInteracting;
     [Space(10)]
-    public Key keyJump          = new Key(PressType.Pressed, KeyCode.Space                 );
-    public Key keyRun           = new Key(PressType.Pressed, KeyCode.LeftShift             );
-    public Key keyForward       = new Key(PressType.Pressed, KeyCode.Z                     );
-    public Key keyBackward      = new Key(PressType.Pressed, KeyCode.S                     );
-    public Key keyLeft          = new Key(PressType.Pressed, KeyCode.Q                     );
-    public Key keyRight         = new Key(PressType.Pressed, KeyCode.D                     );
-    public Key keyInteract      = new Key(PressType.Down,    KeyCode.Mouse0, KeyCode.Mouse1);
-    public Key keyReset         = new Key(PressType.Down,    KeyCode.R                     );
-    public Key keyResetRotation = new Key(PressType.Down,    KeyCode.T                     );
-    public Key keyExit          = new Key(PressType.Down,    KeyCode.Escape                );
+    public Key keyJump          = new Key(true, PressType.Pressed, KeyCode.Space                 );
+    public Key keyRun           = new Key(true, PressType.Pressed, KeyCode.LeftShift             );
+    public Key keyForward       = new Key(true, PressType.Pressed, KeyCode.Z                     );
+    public Key keyBackward      = new Key(true, PressType.Pressed, KeyCode.S                     );
+    public Key keyLeft          = new Key(true, PressType.Pressed, KeyCode.Q                     );
+    public Key keyRight         = new Key(true, PressType.Pressed, KeyCode.D                     );
+    public Key keyInteract      = new Key(true, PressType.Down,    KeyCode.Mouse0, KeyCode.Mouse1);
+    public Key keyReset         = new Key(true, PressType.Down,    KeyCode.R                     );
+    public Key keyResetRotation = new Key(true, PressType.Down,    KeyCode.T                     );
+    public Key keyExit          = new Key(true, PressType.Down,    KeyCode.Escape                );
     [Space(10)]
     public Vector2 mouseInput;
     [Space(10)]
@@ -108,7 +114,7 @@ public class PlayerHandler : MonoBehaviour {
     }
 
     private void UpdateUiField(ref Manager.UIControl uiControl, Key? key) {
-        if (key == null) {
+        if (key == null || !((Key) key).ui) {
             if (uiControl.textBox != null) {
                 uiControl.textBox.text = "";
             }
@@ -136,6 +142,41 @@ public class PlayerHandler : MonoBehaviour {
         UpdateUiField(ref Manager.instance.uiControlInteract, canInteract ? keyInteract : null);
         UpdateUiField(ref Manager.instance.uiControlReset, canReset ? keyReset : null);
         UpdateUiField(ref Manager.instance.uiControlExit, canExit ? keyExit : null);
+    }
+
+    public void ActiveProperty(String property) {
+        switch (property.ToLower()) {
+            case "rotate":
+                canRotate = true;
+                break;
+            case "walk":
+                canWalk = true;
+                break;
+            case "run":
+                canRun = true;
+                break;
+            case "jump":
+                canJump = true;
+                break;
+            case "interact":
+                canInteract = true;
+                break;
+            case "grab":
+                canGrab = true;
+                break;
+            case "break":
+                canBreak = true;
+                break;
+            case "reset":
+                canReset = true;
+                break;
+            case "exit":
+                canExit = true;
+                break;
+            default:
+                Debug.LogError("Unknown property: " + property);
+                break;
+        }
     }
 
     void Awake() {
@@ -173,11 +214,11 @@ public class PlayerHandler : MonoBehaviour {
             tryingExit          = keyExit         .IsPressed();
 
             if (canExit && tryingExit) {
-                Manager.instance.isPaused = !Manager.instance.isPaused;
+                Manager.instance.TogglePause();
                 return;
             }
 
-            if (Manager.instance.isPaused) {
+            if (Manager.instance.window != Manager.Window.GAME) {
                 mouseInput = Vector2.zero;
                 tryingJump          = false;
                 tryingRun           = false;

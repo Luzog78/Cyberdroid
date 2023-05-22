@@ -41,6 +41,7 @@
      <Compile Include="Assets\Scripts\DoorBreakHandler.cs" />
      <Compile Include="Assets\Scripts\Manager.cs" />
      <Compile Include="Assets\Scripts\Narration.cs" />
+     <Compile Include="Assets\Scripts\NarrationTrigger.cs" />
      <Compile Include="Assets\Scripts\Cube.cs" />
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualTouchZone.cs" />
@@ -66,6 +67,7 @@
      <Compile Include="Assets\Scripts\Spawn.cs" />
      <Compile Include="Assets\Scripts\GravityMotor.cs" />
      <Compile Include="Assets\Scripts\MaterialCubeChanger.cs" />
+     <Compile Include="Assets\Scripts\HoverEvent.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

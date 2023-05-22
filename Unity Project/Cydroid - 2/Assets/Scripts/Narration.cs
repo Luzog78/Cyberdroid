@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
+[ExecuteAlways]
 public class Narration : MonoBehaviour {
 
     [Serializable]
@@ -18,6 +18,10 @@ public class Narration : MonoBehaviour {
     public bool finishedOnce;
     public bool canBeSkipped;
     public bool canBeReplayed;
+    public UnityEvent onStart;
+    public UnityEvent onStop;
+    public UnityEvent onFirstStart;
+    public UnityEvent onFirstStop;
     [Tooltip("Objects to (de)activate on start/finish.")] public List<GameObject> linkedObjects;
 
     [Space(10)]
@@ -25,12 +29,16 @@ public class Narration : MonoBehaviour {
     public bool isPlaying = false;
     public int currentSubtitle = -1;
 
-    // Start is called before the first frame update
     void Start() {
-
+        subtitles = new List<SubtitleItem>();
+        foreach (Subtitle subtitle in GetComponentsInChildren<Subtitle>()) {
+            subtitles.Add(new SubtitleItem() {
+                delay = 0,
+                subtitle = subtitle
+            });
+        }
     }
 
-    // Update is called once per frame
     void Update() {
         
     }
@@ -41,11 +49,20 @@ public class Narration : MonoBehaviour {
         if (linkedObjects != null) {
             linkedObjects.ForEach((obj) => obj.SetActive(false));
         }
+        if (!finishedOnce) {
+            onFirstStart.Invoke();
+        }
+        onStart.Invoke();
         StartCoroutine(DoAllTheThings());
     }
 
     public void Stop() {
+        if (!finishedOnce) {
+            onFirstStop.Invoke();
+        }
+        onStop.Invoke();
         isPlaying = false;
+        finishedOnce = true;
         currentSubtitle = -1;
         if (linkedObjects != null) {
             linkedObjects.ForEach((obj) => obj.SetActive(true));
