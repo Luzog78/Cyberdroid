@@ -1,19 +1,15 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public class Breakable : MonoBehaviour {
     public bool broken = false;
 
     public GameObject brokenObject;
-    public AnimatorController animatorController;
+    public RuntimeAnimatorController animatorController;
 
     // Start is called before the first frame update
     void Start() {
-        
+
     }
 
     // Update is called once per frame

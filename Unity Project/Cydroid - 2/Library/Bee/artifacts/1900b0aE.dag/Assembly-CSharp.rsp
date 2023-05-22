@@ -386,7 +386,6 @@
 "Assets/Scripts/GravityArea.cs"
 "Assets/Scripts/GravityMotor.cs"
 "Assets/Scripts/HoverEvent.cs"
-"Assets/Scripts/InspectorModif.cs"
 "Assets/Scripts/Killer.cs"
 "Assets/Scripts/Manager.cs"
 "Assets/Scripts/MaterialCubeChanger.cs"

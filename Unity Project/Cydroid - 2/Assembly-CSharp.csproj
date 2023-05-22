@@ -52,6 +52,7 @@
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\ThirdPersonController.cs" />
      <Compile Include="Assets\Scripts\Killer.cs" />
      <Compile Include="Assets\Scripts\GravityArea.cs" />
+     <Compile Include="Assets\Scripts\HoverEvent.cs" />
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
      <Compile Include="Assets\StarterAssets\InputSystem\StarterAssetsInputs.cs" />
      <Compile Include="Assets\Scripts\Missile.cs" />
@@ -59,7 +60,6 @@
      <Compile Include="Assets\Scripts\PlayerHandler.cs" />
      <Compile Include="Assets\StarterAssets\Mobile\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
      <Compile Include="Assets\Scripts\OnlyObjectCanPass.cs" />
-     <Compile Include="Assets\Scripts\InspectorModif.cs" />
      <Compile Include="Assets\Scripts\DoorPlayerHandler.cs" />
      <Compile Include="Assets\Scripts\ControlUIHandler.cs" />
      <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\BasicRigidBodyPush.cs" />
@@ -67,7 +67,6 @@
      <Compile Include="Assets\Scripts\Spawn.cs" />
      <Compile Include="Assets\Scripts\GravityMotor.cs" />
      <Compile Include="Assets\Scripts\MaterialCubeChanger.cs" />
-     <Compile Include="Assets\Scripts\HoverEvent.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
