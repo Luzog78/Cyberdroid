@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,10 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour {
     public static Manager instance;
     public static int currentLevel = 0;
+
+    public static void SysOut(string message) {
+        Debug.Log(message);
+    }
 
     public static void ResetGame() {
         currentLevel++;
@@ -27,7 +32,7 @@ public class Manager : MonoBehaviour {
 
     [Serializable]
     public enum Window {
-        GAME, INGAME_PAUSE, STARTING_PAUSE, MAIN
+        GAME, INGAME_PAUSE, STARTING_PAUSE, CHEAT, MAIN
     }
 
     [Serializable]
@@ -77,11 +82,13 @@ public class Manager : MonoBehaviour {
     public Material glass;
     public PhysicMaterial noFriction;
     public List<Color> colors = new List<Color>();
+    public List<GameObject> cubePrefabs = new List<GameObject>();
     
     [Header("UI")]
     [Space(10)]
     public GameObject mainUI           = null;
     public GameObject pauseUI          = null;
+    public GameObject cheatUI          = null;
     public UIControl uiControlJump     = new UIControl(null, new List<GameObject>());
     public UIControl uiControlRun      = new UIControl(null, new List<GameObject>());
     public UIControl uiControlForward  = new UIControl(null, new List<GameObject>());
@@ -250,6 +257,9 @@ public class Manager : MonoBehaviour {
         int index = voices.FindIndex(n => n.id == narration);
         if (index >= 0 && index < voices.Count) {
             Narration n = voices[index].narration;
+            if (currentVoice.Contains(n)) {
+                return;
+            }
             currentVoice.Add(n);
             if (currentVoice.Count == 1) {
                 if (!n.finishedOnce || n.canBeReplayed) {
@@ -277,8 +287,18 @@ public class Manager : MonoBehaviour {
         window = Window.MAIN;
     }
 
+    public void SwitchWindowToCheat() {
+        window = Window.CHEAT;
+    }
+
+    public void TrySwitchWindowToCheat() {
+        if (window != Window.MAIN && Input.GetKey(KeyCode.LeftControl)) {
+            SwitchWindowToCheat();
+        }
+    }
+
     public bool IsPaused() {
-        return window == Window.INGAME_PAUSE || window == Window.STARTING_PAUSE;
+        return window == Window.INGAME_PAUSE || window == Window.STARTING_PAUSE || window == Window.CHEAT;
     }
 
     public void Pause() {
@@ -290,7 +310,7 @@ public class Manager : MonoBehaviour {
     }
 
     public void Unpause() {
-        if (window == Window.INGAME_PAUSE) {
+        if (window == Window.INGAME_PAUSE || window == Window.CHEAT) {
             SwitchWindowToGame();
         } else if (window == Window.STARTING_PAUSE) {
             SwitchWindowToMain();
@@ -302,12 +322,6 @@ public class Manager : MonoBehaviour {
             Unpause();
         } else {
             Pause();
-        }
-    }
-
-    public void TrySkipTutorial() {
-        if (Input.GetKey(KeyCode.LeftControl)) {
-            SkipTutorial();
         }
     }
 
@@ -342,6 +356,25 @@ public class Manager : MonoBehaviour {
         });
     }
 
+    public void SpawnRandomCube() {
+        players.ForEach(p => {
+            GameObject cubePrefab = cubePrefabs[UnityEngine.Random.Range(0, cubePrefabs.Count)];
+            GameObject go = Instantiate(cubePrefab, p.transform.position, Quaternion.identity);
+        });
+    }
+
+    public void ResetVelocity() {
+        players.ForEach(p => {
+            Rigidbody rb = p.GetComponent<Rigidbody>();
+            if (rb != null) {
+                rb.velocity = Vector3.zero;
+                rb.inertiaTensor = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.inertiaTensorRotation = Quaternion.identity;
+            }
+        });
+    }
+
     void Awake() {
         if (FindObjectsOfType<Manager>().Length > 1) {
             Destroy(gameObject);
@@ -355,7 +388,8 @@ public class Manager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         instance = this;
-        __window = window == Window.GAME || window == Window.INGAME_PAUSE || window == Window.STARTING_PAUSE ?
+        __window = window == Window.GAME || window == Window.INGAME_PAUSE
+                                || window == Window.STARTING_PAUSE || window == Window.CHEAT ?
                                 Window.MAIN : Window.GAME;
 
         Dictionary<float, System.Action> onTimeSpent = new Dictionary<float, System.Action>();
@@ -395,10 +429,21 @@ public class Manager : MonoBehaviour {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
-            if (mainUI != null)
+            if (mainUI != null) {
                 mainUI.SetActive(window == Window.MAIN);
-            if (pauseUI != null)
+            }
+            if (pauseUI != null) {
                 pauseUI.SetActive(window == Window.INGAME_PAUSE || window == Window.STARTING_PAUSE);
+            }
+            if (cheatUI != null) {
+                cheatUI.SetActive(window == Window.CHEAT);
+                if (window == Window.CHEAT) {
+                    CheatHandler ch = cheatUI.GetComponentInChildren<CheatHandler>();
+                    if (ch != null) {
+                        ch.Refresh();
+                    }
+                }
+            }
         }
 
         if (subtitles != null && subtitlesParent != null) {

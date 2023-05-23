@@ -34,8 +34,12 @@ public class GravityMotor : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        gravity = Gravity;
         if (activated) {
+            PlayerHandler player = GetComponent<PlayerHandler>();
+            if (player != null && !player.cheatHasGravity)
+                return;
+
+            gravity = Gravity;
 
             if (rotate)
             {

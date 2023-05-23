@@ -43,12 +43,15 @@ public class Subtitle : MonoBehaviour {
     public void Play() {
         isPlaying = true;
         if (audioSource != null) {
+            Debug.Log("///////////////////////// PLAYING AUDIO");
             audioSource.Play();
         }
         currentSentence = 0;
         if (textBox != null) {
             textBox.gameObject.SetActive(true);
-            linkedObjects.ForEach((obj) => obj.SetActive(true));
+        }
+        if (linkedObjects != null) {
+            linkedObjects.ForEach((obj) => obj.SetActive(false));
         }
         Debug.Log("///////////////////////// Starting NARRATION");
         onStart.Invoke();
@@ -57,16 +60,19 @@ public class Subtitle : MonoBehaviour {
     }
 
     public void Stop() {
+        Debug.Log("///////////////////////// Stopping NARRATION");
         onStop.Invoke();
         isPlaying = false;
         currentSentence = -1;
         if (audioSource != null) {
             audioSource.Stop();
         }
+        if (linkedObjects != null) {
+            linkedObjects.ForEach((obj) => obj.SetActive(true));
+        }
         if (textBox != null) {
             textBox.text = "";
             textBox.gameObject.SetActive(false);
-            linkedObjects.ForEach((obj) => obj.SetActive(false));
         }
     }
 
@@ -74,7 +80,7 @@ public class Subtitle : MonoBehaviour {
         if (!isPlaying) {
             yield break;
         }
-        Debug.Log("Showing sentence " + currentSentence + " of " + text.Count + "on " + textBox.gameObject.name);
+        Debug.Log("//////////////////  Showing sentence " + currentSentence + " of " + text.Count + " on " + textBox.gameObject.name);
         if (currentSentence >= text.Count) {
             currentSentence = -1;
             if (textBox != null) {

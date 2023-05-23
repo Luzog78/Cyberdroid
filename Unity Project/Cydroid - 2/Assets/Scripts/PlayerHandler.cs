@@ -58,6 +58,13 @@ public class PlayerHandler : MonoBehaviour {
     public Material dieMaterial;
     
     [Space(10)]
+    [Header("Cheats")]
+    [Space(10)]
+    public bool cheatCanCollide = true;
+    public bool cheatHasGravity = true;
+    public bool cheatCanDie = true;
+    
+    [Space(10)]
     [Header("Unlockables")]
     [Space(10)]
     public bool canRotate = true;
@@ -177,6 +184,41 @@ public class PlayerHandler : MonoBehaviour {
         }
     }
 
+    public void DeactiveProperty(String property) {
+        switch (property.ToLower()) {
+            case "rotate":
+                canRotate = false;
+                break;
+            case "walk":
+                canWalk = false;
+                break;
+            case "run":
+                canRun = false;
+                break;
+            case "jump":
+                canJump = false;
+                break;
+            case "interact":
+                canInteract = false;
+                break;
+            case "grab":
+                canGrab = false;
+                break;
+            case "break":
+                canBreak = false;
+                break;
+            case "reset":
+                canReset = false;
+                break;
+            case "exit":
+                canExit = false;
+                break;
+            default:
+                Debug.LogError("Unknown property: " + property);
+                break;
+        }
+    }
+
     void Awake() {
         if (FindObjectsOfType<PlayerHandler>().Length > 1) {
             Destroy(gameObject);
@@ -235,6 +277,12 @@ public class PlayerHandler : MonoBehaviour {
                 //TryToReset();
                 Die();
                 return;
+            }
+
+            // --- Handle Colliders ---
+
+            foreach(Collider c in GetComponents<Collider>()) {
+                c.enabled = cheatCanCollide;
             }
 
             // --- Handle Movement & Animations ---
@@ -324,7 +372,7 @@ public class PlayerHandler : MonoBehaviour {
     }
 
     public void Die() {
-        if (spawn != null) {
+        if (spawn != null && cheatCanDie) {
             Transform t = spawn.spawnPoint == null ? spawn.transform : spawn.spawnPoint;
             List<Renderer> activeRenderers = GetActiveRenderers();
             List<Collider> activeColliders = GetActiveColliders();
