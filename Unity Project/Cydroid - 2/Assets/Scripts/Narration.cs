@@ -13,7 +13,6 @@ public class Narration : MonoBehaviour {
         public Subtitle subtitle;
     }
 
-    public bool activated;
     public List<SubtitleItem> subtitles;
     public bool finishedOnce;
     public bool canBeSkipped;
@@ -45,6 +44,7 @@ public class Narration : MonoBehaviour {
 
     public void Play() {
         isPlaying = true;
+        Debug.Log("******************************** Playing narration " + gameObject.name);
         currentSubtitle = 0;
         if (linkedObjects != null) {
             linkedObjects.ForEach((obj) => obj.SetActive(false));
@@ -82,6 +82,7 @@ public class Narration : MonoBehaviour {
             yield return new WaitForSeconds(item.delay / 1000f);
             if (item.subtitle != null) {
                 item.subtitle.Play();
+                Debug.Log("******************************** Playing sub ");
             }
             while (item.subtitle.isPlaying) {
                 yield return null;

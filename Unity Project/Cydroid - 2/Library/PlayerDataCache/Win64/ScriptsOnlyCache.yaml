@@ -270,6 +270,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 8394}
     - Class: 114
+      Script: {instanceID: 8640}
+    - Class: 114
       Script: {instanceID: 8646}
     - Class: 114
       Script: {instanceID: 8866}
@@ -752,7 +754,7 @@ ScriptsOnlyBuild:
     className: ColorAdjustments
   - hash:
       serializedVersion: 2
-      Hash: f140297c14149e4df9f148d7b418c08d
+      Hash: 3a1bc45d1968adf460371ebd2047c2d2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Narration
