@@ -79,6 +79,8 @@ public class Manager : MonoBehaviour {
     
     [Header("Utils")]
     [Space(10)]
+    public Transform spawnPoint = null;
+    public Spawn spawnTarget = null;
     public Material glass;
     public PhysicMaterial noFriction;
     public List<Color> colors = new List<Color>();
@@ -373,6 +375,18 @@ public class Manager : MonoBehaviour {
                 rb.inertiaTensorRotation = Quaternion.identity;
             }
         });
+    }
+
+    public void NewGame() {
+        deaths = -1;
+        players.ForEach(p => {
+            p.transform.position = spawnPoint.position;
+            p.transform.rotation = spawnPoint.rotation;
+            p.spawn = spawnTarget;
+            p.cheatCanDie = true;
+            p.Die();
+        });
+        ResetVelocity();
     }
 
     void Awake() {

@@ -89,7 +89,6 @@ ScriptsOnlyBuild:
     - TMPro.TMP_Settings
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
-    - TMPro.TMP_SubMesh
     - TMPro.TextMeshPro
     - TMPro.TextMeshProUGUI
     UnityEditor.Graphs.dll:
@@ -245,8 +244,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 5910}
     - Class: 114
       Script: {instanceID: 5956}
-    - Class: 114
-      Script: {instanceID: 6048}
     - Class: 114
       Script: {instanceID: 6142}
     - Class: 114
@@ -736,7 +733,7 @@ ScriptsOnlyBuild:
     className: UnityOnCollisionExit2DMessageListener
   - hash:
       serializedVersion: 2
-      Hash: fb2b8dac1f8c53eba74e0b93ce0604eb
+      Hash: 344801ed5b0dfc9d64e28853934dd1f1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Manager

@@ -383,6 +383,8 @@ public class PlayerHandler : MonoBehaviour {
                 c.enabled = false;
             }
             canReset = false;
+            bool _canDie = cheatCanDie;
+            cheatCanDie = false;
             Missile.Create(
                 origin: transform.position,
                 target: t.position,
@@ -407,6 +409,7 @@ public class PlayerHandler : MonoBehaviour {
                         c.enabled = true;
                     }
                     canReset = true;
+                    cheatCanDie = _canDie;
                     Manager.instance.deaths++;
                     Manager.ResetGame();
                 }

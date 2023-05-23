@@ -17,7 +17,7 @@ public class DoorBreakHandler : MonoBehaviour {
     void Update() {
         foreach (PlayerHandler player in players) {
             if (player.tryingInteract) {
-                breakable.broken = true;
+                //breakable.broken = true;
             }
         }
     }

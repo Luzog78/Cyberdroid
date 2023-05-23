@@ -49,7 +49,7 @@ public class CheatHandler : MonoBehaviour {
         inputDeaths.text = Manager.instance.deaths.ToString();
         Manager.instance.players.ForEach((player) => {
             inputWalk.text = player.speed.ToString();
-            inputJump.text = player.runningSpeed.ToString();
+            inputJump.text = player.jump.ToString();
             inputRun.text = player.runningSpeed.ToString();
             inputMouseX.text = player.mouseSensitivity.x.ToString();
             inputMouseY.text = player.mouseSensitivity.y.ToString();
@@ -85,7 +85,7 @@ public class CheatHandler : MonoBehaviour {
             } catch (System.Exception) {
             }
             try {
-                player.runningSpeed = float.Parse(inputJump.text.Replace(',', '.'));
+                player.jump = float.Parse(inputJump.text.Replace(',', '.'));
             } catch (System.Exception) {
             }
             try {
