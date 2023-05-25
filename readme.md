@@ -5,6 +5,7 @@
 ---
 
 <br>
+https://cydroid.webflow.io
 <br>
 
 ## Informations
@@ -38,6 +39,4 @@ Bienvenue à vous, Cydroïd #713705.<br>
 
 ## Teasers
 
-*(Screens, videos, grosses updates)*
-
----
+![Cydroïd](https://github.com/Luzog78/Cydroid/assets/55955510/caa1a813-f2b9-4c34-8dcf-484ffa237709)
