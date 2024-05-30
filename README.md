@@ -4,6 +4,8 @@
 
 ---
 
+<br><br>
+
 ## Informations
 
 **Auteurs :** _@notpolarstar_ & _@Luzog78_
@@ -37,7 +39,7 @@ Bienvenue à vous, Cydroïd #713705.<br>
 
 
 
-## Semaine 1 <a href="#semaine-2" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-1" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 1 <a href="#semaine-2--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-1--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 <div align="center">
 
@@ -86,7 +88,7 @@ Bienvenue à vous, Cydroïd #713705.<br>
 <br><br><br>
 
 
-## Semaine 2 <a href="#semaine-3" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-1" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 2 <a href="#semaine-3--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-1--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 <div align="center">
 
@@ -149,8 +151,7 @@ Bienvenue à vous, Cydroïd #713705.<br>
 <br><br><br>
 
 
-## Semaine 3
-<a href="#semaine-4" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-2" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 3 <a href="#semaine-4--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-2--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 <div align="center">
 
@@ -213,7 +214,7 @@ Bienvenue à vous, Cydroïd #713705.<br>
 <br><br><br>
 
 
-## Semaine 4 <a href="#semaine-5" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-3" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 4 <a href="#semaine-5--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-3--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 <div align="center">
 
@@ -424,7 +425,7 @@ void Update()
 <br><br><br>
 
 
-## Semaine 5 <a href="#semaine-6" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-4" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 5 <a href="#semaine-6--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-4--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 <div align="center">
 
@@ -656,7 +657,7 @@ Vector3 Gravity
 <br><br><br>
 
 
-## Semaine 10 <a href="#semaine-11" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-5" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 10 <a href="#semaine-11--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-5--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 - Ajout de 2 salles
 - Amélioration de la détection des cubes sur les plaques de pression
@@ -667,7 +668,7 @@ Vector3 Gravity
 <br><br><br>
 
 
-## Semaine 11 <a href="#semaine-12" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-10" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 11 <a href="#semaine-12--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-10--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 - Ajout d'une salle
 - Nettoyage du mouvement de la caméra lors du changement de gravité
@@ -677,7 +678,7 @@ Vector3 Gravity
 <br><br><br>
 
 
-## Semaine 12 <a href="#semaine-13" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-11" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 12 <a href="#semaine-13--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-11--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 - Ajout d'une narration
 - Ajout d'effets sonores
@@ -687,7 +688,7 @@ Vector3 Gravity
 <br><br><br>
 
 
-## Semaine 13 <a href="#semaine-13" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-12" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
+## Semaine 13 <a href="#semaine-13--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%87%EF%B8%8F%20NEXT&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a> <a href="#semaine-12--" align="right"><img src="https://img.shields.io/static/v1?message=%E2%AC%86%EF%B8%8F%20PREV&logo=&label=&color=7289DA&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="up" align="right" /></a>
 
 - Ajout de sous-titres pour la narration
 - Amélioration des menus
